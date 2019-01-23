@@ -6,7 +6,7 @@
 /*   By: qhetting <qhetting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 17:38:39 by qhetting          #+#    #+#             */
-/*   Updated: 2019/01/21 20:29:49 by qhetting         ###   ########.fr       */
+/*   Updated: 2019/01/23 18:39:16 by qhetting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ char *read_file(int fd)
 		ft_bzero(redd, BUFF_SIZE);
 	}
 	ft_strdel(&redd);
+	close(fd);
 	return res;
 }
 
@@ -63,7 +64,7 @@ void remove_symbols(char **s, char c)
 	*s = (char *) (size);
 }
 
-int check(char **ch)
+int is_req_symbols(char **ch)
 {
 	char *ptr;
 
@@ -76,7 +77,7 @@ int check(char **ch)
 	return (1);
 }
 
-int count_symbol(char *str, char ch)
+int ft_count_symbol(char *str, char ch)
 {
 	int i;
 
