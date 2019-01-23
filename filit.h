@@ -13,7 +13,8 @@
 # define FILIT_FILIT_H
 #include "libft/libft.h"
 #include "libft/get_next_line.h"
-
+#define LOWER 4
+#define HIGHER -4
 char **generate_arrays(char **tet_inpt);
 char *read_file(int fd);
 int check(char **ch);

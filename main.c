@@ -23,7 +23,10 @@ int main(int argc, char *argv[])
 	}
 	fd = open(argv[1], O_RDONLY);
 	if(!pre_parse(fd, &tetraminos))
-		ft_putstr("error\n");
+    {
+        ft_putstr("error\n");
+        return (123);
+    }
 
 	char **pr = generate_arrays(&tetraminos);
 	for (int i = 0; i < 5; ++i)
