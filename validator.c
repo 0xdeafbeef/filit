@@ -6,7 +6,7 @@
 /*   By: qhetting <qhetting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/16 21:55:09 by qhetting          #+#    #+#             */
-/*   Updated: 2019/01/23 19:45:55 by qhetting         ###   ########.fr       */
+/*   Updated: 2019/01/24 15:32:09 by qhetting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int pre_parse(int fd, char **tetraminos)
 	str = read_file(fd);
 	ptr[16] = 0;
 	lines = (size_t) ft_count_symbol(str, '\n');
-	if (lines % 5 != 0)
+	if ((lines+1 )% 5 != 0)
 		return (0);
 	if (!is_req_symbols(&str))
 		return (0);
@@ -61,7 +61,7 @@ int validate_crop(char **tet_inpt, int flag)
 	while ((i += 16) < ft_strlen(*tet_inpt))
 	{
 		ft_strncpy(tmp, str, 16);
-		fl = (size_t)get_flag(&tmp);
+		fl = (size_t) validate_tetra(&tmp);
 		if (fl == -1)
 			return (0);
 		if (fl == RIGHT_UP)
@@ -99,43 +99,13 @@ int validate_crop(char **tet_inpt, int flag)
 //	ft_strcpy(valid[18], "##...##");
 //}
 
-int get_flag(char **tetramino)
+int validate_tetra(char **tetramino)
 {
-	size_t i;
-	int crop_flag;
-	char temp[17];
+	int i;
+	int j;
 
-	ft_bzero(temp, 16);
-	ft_memcpy(temp, *tetramino, 16);
-	temp[16] = 0;
-	i = 0;
-	crop_flag = -1;
-	if (temp[i] == '#' || temp[i + LOWER] == '#' || temp[i + 1] == '#' ||
-		temp[i + LOWER + 1] == '#')
-		crop_flag = LEFT_UP;
-	i = 3;
-	if (temp[i] == '#' || temp[i + LOWER] == '#' || temp[i - 1] == '#' ||
-		temp[i + LOWER - 1] == '#')
-	{
-		if (crop_flag == -1)
-		{
-			crop_flag = RIGHT_UP;
-		}
-	}
-	i = 12;
-	if (temp[i] == '#' || temp[i + HIGHER] == '#' || temp[i + 1] == '#' ||
-		temp[i + HIGHER + 1] == '#')
-		if (crop_flag == -1)
-		{
-			crop_flag = LEFT_DOWN;
-		}
-	if (temp[i] == '#' || temp[i + HIGHER] == '#' || temp[i - 1] == '#' ||
-		temp[i + HIGHER - 1] == '#')
-		if (crop_flag == -1)
-		{
-			crop_flag = RIGHT_DOWN;
-		}
-	return (crop_flag);
+
+	i =0;
 }
 
 char **generate_arrays(char **tet_inpt)
