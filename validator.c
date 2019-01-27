@@ -46,32 +46,6 @@ int pre_parse(int fd, char **tetraminos)
 	return (1);
 }
 
-int validate_crop(char **tet_inpt, int flag)
-{
-	char *str;
-	char *tmp;
-	size_t i;
-	size_t fl;
-	char *tetra;
-
-	tetra = ft_strnew(16);
-	tmp = ft_strnew(16);
-	str = *tet_inpt;
-	i = (size_t) -16;
-	while ((i += 16) < ft_strlen(*tet_inpt))
-	{
-		ft_strncpy(tmp, str, 16);
-		fl = (size_t) validate_tetra(&tmp);
-		if (fl == -1)
-			return (0);
-		if (fl == RIGHT_UP)
-		{
-			fl = (size_t) -1;
-
-		}
-	}
-}
-
 //void	populate_valid(int i, char valid[20][15])
 //{
 //	while (++i < 20)
