@@ -6,7 +6,7 @@
 /*   By: qhetting <qhetting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/16 21:55:09 by qhetting          #+#    #+#             */
-/*   Updated: 2019/01/23 19:45:55 by qhetting         ###   ########.fr       */
+/*   Updated: 2019/01/27 18:19:53 by qhetting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int pre_parse(int fd, char **tetraminos)
 	str = read_file(fd);
 	ptr[16] = 0;
 	lines = (size_t) ft_count_symbol(str, '\n');
-	if (lines % 5 != 0)
+	if ((lines + 1) % 5 != 0)
 		return (0);
 	if (!is_req_symbols(&str))
 		return (0);
@@ -44,32 +44,6 @@ int pre_parse(int fd, char **tetraminos)
 	}
 	*tetraminos = (char *) i;
 	return (1);
-}
-
-int validate_crop(char **tet_inpt, int flag)
-{
-	char *str;
-	char *tmp;
-	size_t i;
-	size_t fl;
-	char *tetra;
-
-	tetra = ft_strnew(16);
-	tmp = ft_strnew(16);
-	str = *tet_inpt;
-	i = (size_t) -16;
-	while ((i += 16) < ft_strlen(*tet_inpt))
-	{
-		ft_strncpy(tmp, str, 16);
-		fl = (size_t)get_flag(&tmp);
-		if (fl == -1)
-			return (0);
-		if (fl == RIGHT_UP)
-		{
-			fl = (size_t) -1;
-
-		}
-	}
 }
 
 //void	populate_valid(int i, char valid[20][15])
@@ -92,50 +66,224 @@ int validate_crop(char **tet_inpt, int flag)
 //	ft_strcpy(valid[11], "#...##..#");
 //	ft_strcpy(valid[12], ".##.##");
 //	ft_strcpy(valid[13], "#...##...#");
-//	ft_strcpy(valid[14], "##..##");
+//	ft_strcpy(valid[14], "##..##")
 //	ft_strcpy(valid[15], "#...#...#...#");
 //	ft_strcpy(valid[16], "####");
 //	ft_strcpy(valid[17], ".#..##..#");
 //	ft_strcpy(valid[18], "##...##");
 //}
 
-int get_flag(char **tetramino)
-{
-	size_t i;
-	int crop_flag;
-	char temp[17];
 
-	ft_bzero(temp, 16);
-	ft_memcpy(temp, *tetramino, 16);
-	temp[16] = 0;
-	i = 0;
-	crop_flag = -1;
-	if (temp[i] == '#' || temp[i + LOWER] == '#' || temp[i + 1] == '#' ||
-		temp[i + LOWER + 1] == '#')
-		crop_flag = LEFT_UP;
-	i = 3;
-	if (temp[i] == '#' || temp[i + LOWER] == '#' || temp[i - 1] == '#' ||
-		temp[i + LOWER - 1] == '#')
+
+int _x(int pos)
+{
+	return (pos % 4);
+}
+
+int _y(int pos)
+{
+	return (pos / 4);
+}
+
+/*
+_y(pos) > 0 && _y(pos) < 4 && _x(pos) > 0 && _x(pos) < 4
+ */
+int check_1(char *tetr, int pos)
+{
+	int sharps;
+
+	sharps = 0;
+
+	if (tetr[pos + UP] == '#')
+		sharps++;
+	if (tetr[pos + 1] == '#')
+		sharps++;
+	if (tetr[pos + DOWN] == '#')
+		sharps++;
+	if (tetr[pos - 1] == '#')
+		sharps++;
+	return (sharps);
+}
+
+//x ==0
+int check_2(char *tetr, int pos)
+{
+	int sharps;
+
+	sharps = 0;
+
+	if (tetr[pos + UP] == '#')
+		sharps++;
+	if (tetr[pos + 1] == '#')
+		sharps++;
+	if (tetr[pos + DOWN] == '#')
+		sharps++;
+	return (sharps);
+}
+
+int check_3(char *tetr, int pos)
+{
+	int sharps;
+
+	sharps = 0;
+
+	if (tetr[pos + UP] == '#')
+		sharps++;
+	if (tetr[pos + DOWN] == '#')
+		sharps++;
+	if (tetr[pos - 1] == '#')
+		sharps++;
+	return (sharps);
+}
+
+int check_4(char *tetr, int pos)
+{
+	int sharps;
+
+	sharps = 0;
+
+	if (tetr[pos + 1] == '#')
+		sharps++;
+	if (tetr[pos + DOWN] == '#')
+		sharps++;
+	if (tetr[pos - 1] == '#')
+		sharps++;
+	return (sharps);
+}
+
+int check_5(char *tetr, int pos)
+{
+	int sharps;
+
+	sharps = 0;
+
+	if (tetr[pos + 1] == '#')
+		sharps++;
+	if (tetr[pos + DOWN] == '#')
+		sharps++;
+	return (sharps);
+}
+
+int check_6(char *tetr, int pos)
+{
+	int sharps;
+
+	sharps = 0;
+
+	if (tetr[pos + DOWN] == '#')
+		sharps++;
+	if (tetr[pos - 1] == '#')
+		sharps++;
+	return (sharps);
+}
+
+int check_7(char *tetr, int pos)
+{
+	int sharps;
+
+	sharps = 0;
+
+	if (tetr[pos + UP] == '#')
+		sharps++;
+	if (tetr[pos + 1] == '#')
+		sharps++;
+	if (tetr[pos - 1] == '#')
+		sharps++;
+	return (sharps);
+}
+
+int check_8(char *tetr, int pos)
+{
+	int sharps;
+
+	sharps = 0;
+	if (tetr[pos + UP] == '#')
+		sharps++;
+	if (tetr[pos + 1] == '#')
+		sharps++;
+	return (sharps);
+}
+
+int check_9(char *tetr, int pos)
+{
+	int sharps;
+
+	sharps = 0;
+	if (tetr[pos + UP] == '#')
+		sharps++;
+	if (tetr[pos - 1] == '#')
+		sharps++;
+	return (sharps);
+}
+
+int get_flag(int pos, char *tetra)
+{
+	int flag;
+	if (_y(pos) > 0 && _y(pos) < 4)
 	{
-		if (crop_flag == -1)
-		{
-			crop_flag = RIGHT_UP;
-		}
+		if (_x(pos) > 0 && _x(pos) < 4)
+			flag = check_1(tetra, pos);
+		else if (_x(pos) == 0)
+			flag = check_2(tetra, pos);
+		else
+			flag = check_3(tetra, pos);
+	} else if (_y(pos) == 0)
+	{
+		if (_x(pos) > 0 && _x(pos) < 4)
+			flag = check_4(tetra, pos);
+		else if (_x(pos) == 0)
+			flag = check_5(tetra, pos);
+		else
+			flag = check_6(tetra, pos);
+	} else
+	{
+		if (_x(pos) > 0 && _x(pos) < 4)
+			flag = check_7(tetra, pos);
+		else if (_x(pos) == 0)
+			flag = check_8(tetra, pos);
+		else
+			flag = check_9(tetra, pos);
 	}
-	i = 12;
-	if (temp[i] == '#' || temp[i + HIGHER] == '#' || temp[i + 1] == '#' ||
-		temp[i + HIGHER + 1] == '#')
-		if (crop_flag == -1)
-		{
-			crop_flag = LEFT_DOWN;
-		}
-	if (temp[i] == '#' || temp[i + HIGHER] == '#' || temp[i - 1] == '#' ||
-		temp[i + HIGHER - 1] == '#')
-		if (crop_flag == -1)
-		{
-			crop_flag = RIGHT_DOWN;
-		}
-	return (crop_flag);
+	return (flag);
+}
+
+int validate_tetra(char **tetramino)
+{
+	int pos;
+	int sharp_count;
+	char *tetra;
+	int flag;
+
+	flag = 0;
+	tetra = *tetramino;
+	pos = 0;
+	sharp_count = pos;
+	while (pos < 16)
+	{
+		if (tetra[pos] == '#' && sharp_count < 4)
+			flag += get_flag(pos, tetra);
+		pos++;
+	}
+	return ((flag >= 6 && flag <= 8) ? 1 : 0);
+}
+
+int validate(char **tetra)
+{
+	int i;
+	char *cut;
+	i = 0;
+
+	cut = malloc(17);
+	cut[16] = 0;
+	while (i != ft_strlen(*tetra))
+	{
+		ft_memcpy(cut, (i + *(tetra)), 16);
+		if (!validate_tetra(&cut))
+			return 0;
+		i += 16;
+	}
+	free(cut);
+	return (1);
 }
 
 char **generate_arrays(char **tet_inpt)
@@ -163,4 +311,8 @@ char **generate_arrays(char **tet_inpt)
 	}
 	return (tetraminos);
 }
+/*
+0x23 #
+0x2E .
+ */
 

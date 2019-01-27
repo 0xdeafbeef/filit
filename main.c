@@ -6,7 +6,7 @@
 /*   By: qhetting <qhetting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 17:49:30 by qhetting          #+#    #+#             */
-/*   Updated: 2019/01/23 21:39:07 by qhetting         ###   ########.fr       */
+/*   Updated: 2019/01/27 20:13:08 by qhetting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,14 @@ int main(int argc, char *argv[])
 		return (10);
 	}
 	fl = open(argv[1], O_RDONLY);
-	if (!((pre_parse(fl, &tetraminos)) ))
+	if (!((pre_parse(fl, &tetraminos)) && validate(&tetraminos)))
 	{
 		ft_putstr("error\n");
 		return (123);
 	}
-	tetraminos += 16;
-	printf("%i", get_flag( &tetraminos));
-//    char **pr = generate_arrays(&tetraminos);
-//    for (int i = 0; i < 5; ++i)
-//        printf("%s\n", pr[i]);
+	char **pr = generate_arrays(&tetraminos);
+
+
+
 	return (0);
 }
