@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
 		return (123);
 	}
 	tetraminos += 16;
-	printf("%i", get_flag( &tetraminos));
+	printf("%i", validate_tetra(&tetraminos));
 //    char **pr = generate_arrays(&tetraminos);
 //    for (int i = 0; i < 5; ++i)
 //        printf("%s\n", pr[i]);
