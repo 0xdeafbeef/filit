@@ -1,6 +1,6 @@
 #include "filit.h"
 
-int findx(char *tetra)
+int find_x_offset(char *tetra)
 {
 	int x;
 	int y;
@@ -21,7 +21,7 @@ int findx(char *tetra)
 	return (0);
 }
 
-int findy(char *tetra)
+int find_y_offset(char *tetra)
 {
 	int x;
 	int y;
@@ -52,8 +52,8 @@ char *crop(char **tet_inpt)
 
 	ret = ft_memalloc(17);
 	tetra = *tet_inpt;
-	x_ofs = findx(tetra);
-	y_ofs = findy(tetra);
+	x_ofs = find_x_offset(tetra);
+	y_ofs = find_y_offset(tetra);
 	pos = 0;
 	while (pos < 16)
 	{
@@ -73,23 +73,24 @@ char **generate_arrays(char **tet_inpt)
 	char i;
 	char *current;
 	int size_f;
+
 	size = (char) (ft_strlen(*tet_inpt) / 16);
-	tetraminos = malloc(sizeof(char *) * 27);
-	i = 0;
+	tetraminos = malloc(sizeof(char *) * 28);
+	i = 1;
 	current = ft_memalloc(17);
 	while (size--)
 	{
-		tetraminos[i + 1] = ft_memalloc(17);
+		tetraminos[i] = ft_memalloc(17);
 		i++;
 	}
 	size = (char) (ft_strlen(*tet_inpt) / 16);
-	i = 0;
+	i = 1;
 	size_f = size * 16;
 	while (size--)
 	{
 		ft_memcpy(current, *tet_inpt, 16);
-		tetraminos[i + 1] = crop(&current);
-		tetraminos[i + 1][16] = (char) ('A' + i);
+		tetraminos[i] = crop(&current);
+		tetraminos[i][16] = (char) ('A' + i);
 		*tet_inpt += 16;
 		i++;
 	}
