@@ -82,4 +82,5 @@ add_executable(filit
         libft.h
         main.c
         reader.c
-        validator.c cutters.c)
+        validator.c checker0_5.c checker6_9.c misc.c
+        parser.c)

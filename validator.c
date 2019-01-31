@@ -10,11 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <printf.h>
 #include "filit.h"
 
-int g_steps_counter = 0;
-int g_sharp_cntr = 0;
+
 
 int pre_parse(int fd, char **tetraminos)
 {
@@ -75,153 +73,13 @@ int pre_parse(int fd, char **tetraminos)
 
 
 
-int _x(int pos)
-{
-	return (pos % 4);
-}
-
-int _y(int pos)
-{
-	return (pos / 4);
-}
-
-/*
-_y(pos) > 0 && _y(pos) < 4 && _x(pos) > 0 && _x(pos) < 4
- */
-int check_1(char *tetr, int pos)
-{
-	int sharps;
-
-	sharps = 0;
-
-	if (tetr[pos + UP] == '#')
-		sharps++;
-	if (tetr[pos + 1] == '#')
-		sharps++;
-	if (tetr[pos + DOWN] == '#')
-		sharps++;
-	if (tetr[pos - 1] == '#')
-		sharps++;
-	return (sharps);
-}
-
-//x ==0
-int check_2(char *tetr, int pos)
-{
-	int sharps;
-
-	sharps = 0;
-
-	if (tetr[pos + UP] == '#')
-		sharps++;
-	if (tetr[pos + 1] == '#')
-		sharps++;
-	if (tetr[pos + DOWN] == '#')
-		sharps++;
-	return (sharps);
-}
-
-int check_3(char *tetr, int pos)
-{
-	int sharps;
-
-	sharps = 0;
-
-	if (tetr[pos + UP] == '#')
-		sharps++;
-	if (tetr[pos + DOWN] == '#')
-		sharps++;
-	if (tetr[pos - 1] == '#')
-		sharps++;
-	return (sharps);
-}
-
-int check_4(char *tetr, int pos)
-{
-	int sharps;
-
-	sharps = 0;
-
-	if (tetr[pos + 1] == '#')
-		sharps++;
-	if (tetr[pos + DOWN] == '#')
-		sharps++;
-	if (tetr[pos - 1] == '#')
-		sharps++;
-	return (sharps);
-}
-
-int check_5(char *tetr, int pos)
-{
-	int sharps;
-
-	sharps = 0;
-
-	if (tetr[pos + 1] == '#')
-		sharps++;
-	if (tetr[pos + DOWN] == '#')
-		sharps++;
-	return (sharps);
-}
-
-int check_6(char *tetr, int pos)
-{
-	int sharps;
-
-	sharps = 0;
-
-	if (tetr[pos + DOWN] == '#')
-		sharps++;
-	if (tetr[pos - 1] == '#')
-		sharps++;
-	return (sharps);
-}
-
-int check_7(char *tetr, int pos)
-{
-	int sharps;
-
-	sharps = 0;
-
-	if (tetr[pos + UP] == '#')
-		sharps++;
-	if (tetr[pos + 1] == '#')
-		sharps++;
-	if (tetr[pos - 1] == '#')
-		sharps++;
-	return (sharps);
-}
-
-int check_8(char *tetr, int pos)
-{
-	int sharps;
-
-	sharps = 0;
-	if (tetr[pos + UP] == '#')
-		sharps++;
-	if (tetr[pos + 1] == '#')
-		sharps++;
-	return (sharps);
-}
-
-int check_9(char *tetr, int pos)
-{
-	int sharps;
-
-	sharps = 0;
-	if (tetr[pos + UP] == '#')
-		sharps++;
-	if (tetr[pos - 1] == '#')
-		sharps++;
-	return (sharps);
-}
 
 int get_flag(int pos, char *tetra)
 {
 	int flag;
-	if (_y(pos) > 0 && _y(pos) < 4)
+	if (_y(pos) > 0 && _y(pos) < 3)
 	{
-		if (_x(pos) > 0 && _x(pos) < 4)
+		if (_x(pos) > 0 && _x(pos) < 3)
 			flag = check_1(tetra, pos);
 		else if (_x(pos) == 0)
 			flag = check_2(tetra, pos);
@@ -229,7 +87,7 @@ int get_flag(int pos, char *tetra)
 			flag = check_3(tetra, pos);
 	} else if (_y(pos) == 0)
 	{
-		if (_x(pos) > 0 && _x(pos) < 4)
+		if (_x(pos) > 0 && _x(pos) < 3)
 			flag = check_4(tetra, pos);
 		else if (_x(pos) == 0)
 			flag = check_5(tetra, pos);
@@ -237,7 +95,7 @@ int get_flag(int pos, char *tetra)
 			flag = check_6(tetra, pos);
 	} else
 	{
-		if (_x(pos) > 0 && _x(pos) < 4)
+		if (_x(pos) > 0 && _x(pos) < 3)
 			flag = check_7(tetra, pos);
 		else if (_x(pos) == 0)
 			flag = check_8(tetra, pos);
@@ -286,31 +144,7 @@ int validate(char **tetra)
 	return (1);
 }
 
-char **generate_arrays(char **tet_inpt)
-{
-	char size;
-	char **tetraminos;
-	int i;
 
-	size = (char) (ft_strlen(*tet_inpt) / 16);
-	tetraminos = malloc(sizeof(char *) * size);
-	i = 0;
-	while (size--)
-	{
-		tetraminos[i] = ft_memalloc(17);
-		i++;
-	}
-	size = (char) (ft_strlen(*tet_inpt) / 16);
-	i = 0;
-	while (size--)
-	{
-		tetraminos[i] = ft_memcpy(tetraminos[i], *tet_inpt, 16);
-		tetraminos[i][16] = (char) ('A' + i);
-		*tet_inpt += 16;
-		i++;
-	}
-	return (tetraminos);
-}
 /*
 0x23 #
 0x2E .

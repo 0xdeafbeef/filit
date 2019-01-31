@@ -97,4 +97,5 @@ char **generate_arrays(char **tet_inpt)
 	free((*tet_inpt - size_f));
 	free(current);
 	return (tetraminos);
+
 }

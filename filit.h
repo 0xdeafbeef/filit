@@ -15,6 +15,15 @@
 #include "libft/get_next_line.h"
 
 #define WIDTH 4
+int check_1(char *tetr, int pos);
+int check_2(char *tetr, int pos);
+int check_3(char *tetr, int pos);
+int check_4(char *tetr, int pos);
+int check_5(char *tetr, int pos);
+int check_6(char *tetr, int pos);
+int check_7(char *tetr, int pos);
+int check_8(char *tetr, int pos);
+int check_9(char *tetr, int pos);
 
 #define DOWN 4
 #define UP -4
