@@ -6,7 +6,7 @@
 /*   By: qhetting <qhetting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/16 21:55:09 by qhetting          #+#    #+#             */
-/*   Updated: 2019/01/27 18:19:53 by qhetting         ###   ########.fr       */
+/*   Updated: 2019/02/03 16:48:11 by qhetting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,22 +22,33 @@ int pre_parse(int fd, char **tetraminos)
 	size_t i;
 
 	str = read_file(fd);
+	if (!str)
+		return (0);
 	ptr[16] = 0;
 	lines = (size_t) ft_count_symbol(str, '\n');
 	if ((lines + 1) % 5 != 0)
+	{
+		free(str);
 		return (0);
+	}
 	if (!is_req_symbols(&str))
 		return (0);
 	remove_symbols(&str, '\n');
 	if (ft_strlen(str) % 16 != 0)
-		return 0;
+	{
+		free(str);
+		return (0);
+	}
 	lines = (size_t) -16;
 	i = (size_t) str;
 	while ((lines += 16) < ft_strlen((char *) i))
 	{
 		ft_strncpy(ptr, str, 16);
 		if (ft_count_symbol(ptr, '#') != 4)
+		{
+			free(str);
 			return (0);
+		}
 		str += 16;
 	}
 	*tetraminos = (char *) i;

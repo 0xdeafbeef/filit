@@ -15,21 +15,17 @@
 
 char *read_file(int fd)
 {
-	char *redd;
-	char *temp;
 	char *res;
+	int ret;
+	res = ft_strnew(4096);
 
-	res = ft_strnew(0);
-	redd = ft_strnew(BUFF_SIZE - 1);
-	while (read(fd, redd, BUFF_SIZE) > 0)
+	ret = (int) read(fd, res, 4096);
+	if (ret <=0)
 	{
-		temp = ft_strdup(res);
 		free(res);
-		res = ft_strjoin(temp, redd);
-		ft_strdel(&temp);
-		ft_bzero(redd, BUFF_SIZE);
+		res = 0x0;
+		return (res);
 	}
-	ft_strdel(&redd);
 	close(fd);
 	return res;
 }
