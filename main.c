@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
 		return (123);
 	}
 	char **pr = generate_arrays(&tetraminos);
-
+	
 
 
 	return (0);
