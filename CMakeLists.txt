@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.13)
 project(filit C)
 
 set(CMAKE_C_STANDARD 11)
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -fsanitize=address")
+
 include_directories(.)
 include_directories(libft)
 
@@ -46,7 +46,6 @@ add_executable(filit
         libft/ft_strclr.c
         libft/ft_strcmp.c
         libft/ft_strcopy_untill.c
-        libft/ft_strcpy.c
         libft/ft_strdel.c
         libft/ft_strdup.c
         libft/ft_strequ.c
@@ -78,9 +77,14 @@ add_executable(filit
         libft/get_next_line.h
         libft/libft.h
         libft/strlen.h
+        checker0_5.c
+        checker6_9.c
         filit.h
         libft.h
         main.c
+        misc.c
+        parser.c
         reader.c
-        validator.c checker0_5.c checker6_9.c misc.c
-        parser.c)
+        validator.c
+        ft_fillit.c
+        libft/ft_strcpy.c)

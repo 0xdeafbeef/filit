@@ -24,9 +24,28 @@ int check_6(char *tetr, int pos);
 int check_7(char *tetr, int pos);
 int check_8(char *tetr, int pos);
 int check_9(char *tetr, int pos);
+int find_x_offset(char *tetra);
+int find_y_offset(char *tetra);
+int find_x_r_offset(char *tetra);
+int find_y_r_offset(char *tetra);
+void	ft_fillit(char **str, int n);
 
 #define DOWN 4
 #define UP -4
+typedef struct	s_flags
+{
+	int first;
+	int second;
+	int crd;
+	int ccrd[2];
+	int flag;
+	int count;
+	int *mass;
+	int *ovl;
+	int *fld;
+	int gg;
+
+};				t_flags;
 int _y(int pos);
 int _x(int pos);
 char **generate_arrays(char **tet_inpt);
