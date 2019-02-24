@@ -32,20 +32,17 @@ void	ft_fillit(char **str, int n);
 
 #define DOWN 4
 #define UP -4
-typedef struct	s_flags
+typedef struct	s_tetro
 {
-	int first;
-	int second;
-	int crd;
+	int **rtr;
 	int ccrd[2];
 	int flag;
-	int count;
 	int *mass;
 	int *ovl;
 	int *fld;
-	int gg;
-
-};				t_flags;
+	int n;
+	int d;
+}				t_tetro;
 int _y(int pos);
 int _x(int pos);
 char **generate_arrays(char **tet_inpt);

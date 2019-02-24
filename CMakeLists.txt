@@ -46,6 +46,7 @@ add_executable(filit
         libft/ft_strclr.c
         libft/ft_strcmp.c
         libft/ft_strcopy_untill.c
+        libft/ft_strcpy.c
         libft/ft_strdel.c
         libft/ft_strdup.c
         libft/ft_strequ.c
@@ -80,11 +81,13 @@ add_executable(filit
         checker0_5.c
         checker6_9.c
         filit.h
+        ft_fillit.c
+        ft_fillit.h
         libft.h
         main.c
         misc.c
         parser.c
         reader.c
         validator.c
-        ft_fillit.c
-        libft/ft_strcpy.c)
+        libft/ft_gc.c
+        libft/ft_gc.h libft/ft_memmem.c)

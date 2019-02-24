@@ -1,15 +1,27 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_fillit.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: adoyle <adoyle@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/02/24 15:25:58 by adoyle            #+#    #+#             */
+/*   Updated: 2019/02/24 18:35:09 by qhetting         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
-#include <libft/libft.h>
+#include "filit.h"
 
 int		ft_search(char *str, int d)
 {
 	int i;
 
 	i = 0;
-	while(i < d * d)
+	while (i < d * d)
 	{
 		if (str[i] == 2)
 			return (1);
@@ -18,36 +30,15 @@ int		ft_search(char *str, int d)
 	return (0);
 }
 
-void	ft_bzero_custom(void *s, size_t n)
+void	ft_bzeroint(int *s, size_t n)
 {
 	while (n-- > 0)
 	{
-		((char*)s)[n] = (char)0;
+		((int*)s)[n] = (int)0;
 	}
 }
 
-void	*ft_memalloc_custom(size_t size)
-{
-	void *dest;
-
-	if (size == 0)
-		return (NULL);
-	dest = (char *)malloc(size);
-	if (dest == NULL)
-		return (NULL);
-	ft_bzero_custom(dest, size);
-	return (dest);
-}
-
-char	*ft_strnew_custom(size_t size)
-{
-	char *str;
-
-	str = (char *) ft_memalloc_custom(size + 1);
-	return (str);
-}
-
-char	*ft_strcpy_custom(char *dest, char *str, int n)
+char	*ft_ftstrcpy(char *dest, char *str, int n)
 {
 	int i;
 
@@ -68,7 +59,7 @@ int		ft_fsmb(char *str)
 
 	i = 0;
 
-	while(str[i] != 1)
+	while (str[i] != 1)
 	{
 		i++;
 	}
@@ -78,34 +69,29 @@ int		ft_fsmb(char *str)
 int		ft_move(char *str1, char *str2, int crd, int d)
 {
 	char *str;
-	int i;
 	int j;
 	int g;
 
-	i = 0;
 	j = 0;
-	str = ft_strnew_custom(d * d);
-	if (str1 == NULL)
+	str = ft_strnew(d * d);
+	str = ft_ftstrcpy(str, str1, d * d);
+	while (j < 16)
 	{
-		str = ft_strcpy_custom(str, str2, d * d);
-		return (1);
-	}
-	str = ft_strcpy_custom(str, str1, d * d);
-	i = crd / d;
-	while(j < 16)
-	{
-		g = (j - (4 * j));
-		//	printf (" %d j=%d\n", (j % 4), j);
+		g = (crd + (j % 4)) + d * (j / 4);
 		if ((crd + (j % 4)) + d * (j / 4) > d * d && str2[j] == 1)
 			str[0] = 2;
-		if (((crd + (j % 4) + d * (j / 4)) / d) - i != (j /4) && str2[j] == 1)
+		if ((g / d) - (crd / d) != (j / 4) && str2[j] == 1)
 			str[0] = 2;
-		if (str2[j] == 1)
-			str[(crd + (j % 4)) + d * (j / 4)] = str1[(crd + j % 4) + d * (j / 4)] + str2[j];
-		if (((str[(crd + (j % 4)) + d * (j / 4)] >= 2) && (str2[j] == 1)) || (str[0] == 2))
-			return (1);
+		if (str2[j] == 1 && g < d * d - 1)
+			str[g] = str1[(crd + j % 4) + d * (j / 4)] + str2[j];
+		if (str[0] == 2 || (((crd + (j % 4)) + d * (j / 4)) < d * d - 1))
+		{
+			if ((str[0] == 2) || (crd < 0) || (str[g] >= 2 && (str2[j] == 1)))
+				return (1);
+		}
 		j++;
 	}
+	ft_free(str);
 	return (0);
 }
 
@@ -114,42 +100,25 @@ char	*ft_paste(char *str1, char *str2, int crd, int d)
 	char *str;
 	int i;
 	int j;
-	int s;
 
-	i = 0;
 	j = 0;
-	str = ft_strnew_custom(d * d);
-	s = ft_fsmb(str2);
-	crd = crd - s;
-	if (str1 == NULL)
-	{
-		//	str = ft_strcpy_custom(str, str2, d * d);
-		while(i < d * d)
-		{
-			if ((i % d) == (j % 4) && j < 16)
-			{
-				if (str2[j] == 1)
-					str[i] = str2[16];
-				else
-					str[i] = str2[j];
-				j++;
-			}
-			i++;
-		}
-		return (str);
-	}
-	str = ft_strcpy_custom(str, str1, d * d);
+	str = ft_strnew(d * d);
+	crd = crd - ft_fsmb(str2);
+	str = ft_ftstrcpy(str, str1, d * d - 1);
 	i = crd / d;
-	while(j < 16)
+	while (j < 16)
 	{
 		if ((crd + (j % 4)) + d * (j / 4) > d * d && str2[j] == 1)
 			str[0] = 2;
-		if (((crd + (j % 4) + d * (j / 4)) / d) - i != (j /4) && str2[j] == 1)
+		if (((crd + (j % 4) + d * (j / 4)) / d) - i != (j / 4) && str2[j] == 1)
 			str[0] = 2;
-		if (str2[j] == 1)
+		if (str2[j] == 1 && (crd + (j % 4)) + d * (j / 4) < d * d)
 			str[(crd + (j % 4)) + d * (j / 4)] = str2[16];
-		if (str[(crd + (j % 4)) + d * (j / 4)] == 2 || str[0] == 2)
-			return (str);
+		if ((crd + (j % 4)) + d * (j / 4) < d * d || str[0] == 2)
+		{
+			if (str[(crd + (j % 4)) + d * (j / 4)] == 2 || str[0] == 2)
+				return (str);
+		}
 		j++;
 	}
 	return (str);
@@ -163,9 +132,9 @@ char	*ft_paste3(char *str1, char *str2, int crd, int d)
 
 	i = 0;
 	j = 0;
-	str = ft_strnew_custom(d * d);
-	str = ft_strcpy_custom(str, str1, d * d);
-	while(j < 16)
+	str = ft_strnew(d * d);
+	str = ft_ftstrcpy(str, str1, d * d);
+	while (j < 16)
 	{
 		if (str[j] == 1)
 			str[j] = str1[9];
@@ -173,11 +142,11 @@ char	*ft_paste3(char *str1, char *str2, int crd, int d)
 	}
 	i = crd / d;
 	j = 0;
-	while(j < 16)
+	while (j < 16)
 	{
 		if ((crd + (j % 4)) + d * (j / 4) > d * d && str2[j] == 1)
 			str[0] = 2;
-		if (((crd + (j % 4) + d * (j / 4)) / d) - i != (j /4) && str2[j] == 1)
+		if (((crd + (j % 4) + d * (j / 4)) / d) - i != (j / 4) && str2[j] == 1)
 			str[0] = 2;
 		if (str2[j] == 1)
 			str[(crd + (j % 4)) + d * (j / 4)] = str2[16];
@@ -197,23 +166,20 @@ int		ft_coordinate(char *str1, char *str2, int d)
 
 	i = 0;
 	flag = 0;
-	if (str1 == NULL)
-		return (0);
-	if (str2 == NULL) //todo validate this change
-		return (0);
-	tmp = ft_strnew_custom(d * d);
-	tmp = ft_strcpy_custom(tmp, str1, d * d);
+	if (str1 == NULL || str2 == NULL)
+		return (-5);
+	tmp = ft_strnew(d * d);
+	tmp = ft_ftstrcpy(tmp, str1, d * d - 1);
 	s = ft_fsmb(str2);
-	while(i != d * d)
+	while (i != d * d)
 	{
-		if (tmp[i] == 1 || tmp[i] == 2)
+		if (tmp[i] > 0)
 			i++;
 		else
 		{
 			flag = ft_move(tmp, str2, i - s, d);
-//			flag = ft_search(str1, d);
 			if (flag == 0)
-				return(i);
+				return (i);
 			i++;
 		}
 	}
@@ -228,8 +194,8 @@ char	*ft_newquad(char *str, int d, int nd)
 
 	i = 0;
 	j = 0;
-	strn = (char *)malloc(nd * nd);
-	while(i < nd * nd)
+	strn = (char *)ft_memalloc(nd * nd);
+	while (i < nd * nd)
 	{
 		if (((i + 1) % nd == 0 && i != 0) || (j + 1 > (d * d)))
 			strn[i] = 0;
@@ -243,6 +209,21 @@ char	*ft_newquad(char *str, int d, int nd)
 	return (strn);
 }
 
+void	ft_qprint(char *str, int d)
+{
+	int i;
+	int n;
+
+	i = 0;
+	while (i < d * d + d)
+	{
+		if (str[i] == 0)
+			str[i] = '.';
+		printf("%c", str[i]);
+		i++;
+	}
+}
+
 char	*ft_quadforprin(char *str, int d)
 {
 	char *strn;
@@ -250,11 +231,10 @@ char	*ft_quadforprin(char *str, int d)
 	int j;
 	int r;
 
-	strn = ft_strnew_custom(d * d + d);
+	strn = ft_strnew(d * d + d);
 	i = 0;
 	j = 0;
-	//str = ft_strcpy_custom(strn, str, d * d);
-	while(i <= d * d + d)
+	while (i <= d * d + d)
 	{
 		r = (i + 1) % (d + 1);
 		if (r == 0 && i != 0)
@@ -266,25 +246,51 @@ char	*ft_quadforprin(char *str, int d)
 		}
 		i++;
 	}
+	ft_qprint(strn, d);
 	return (strn);
 }
 
-void	ft_qprint(char *str, int d)
+void	ft_qprintdbg(char *str, int d)
 {
 	int i;
+	int n;
 
 	i = 0;
-	while(i < d * d + d)
+	while (i < d * d)
 	{
+		if (i % d == 0)
+			printf("\n");
 		if (str[i] == 0)
-			str[i] = '.';
-//	    else if (str[i] == 1)
-//	        str[i] = '#';
-//	    else if (str[i] != 0 && str[i] != '\n')
-//	        str[i] = '1';
-		printf("%c", str[i]);
+			printf(".");
+		else
+			printf("%c", str[i]);
 		i++;
 	}
+	printf("\n_________________\n");
+}
+
+void	dbgmassn(int *mass)
+{
+	int i = 0;
+	int n = 8;
+
+	while (i <= n)
+	{
+		printf("%d ", mass[i++]);
+	}
+	printf("\n");
+}
+
+void	dbgmassd(int *mass)
+{
+	int i = 0;
+	int n = 35;
+
+	while (i <= n)
+	{
+		printf("%d ", mass[i++]);
+	}
+	printf("\n");
 }
 
 char	*ft_d3(char *str)
@@ -295,7 +301,7 @@ char	*ft_d3(char *str)
 
 	i = 0;
 	j = 0;
-	tmp = ft_strnew_custom(10);
+	tmp = ft_strnew(10);
 	while (i < 9)
 	{
 		if ((j % 4) == 3 && j != 0)
@@ -309,279 +315,264 @@ char	*ft_d3(char *str)
 	tmp[9] = str[16];
 	return (tmp);
 }
-int g_size;
-int		ft_flag(int ovl[g_size])
+
+int		ft_flag(int *ovl, int d)
 {
 	int i;
 
-	i = g_size;
+	i = d * d;
 	while (i--)
 	{
 		if (ovl[i] != 0)
-			return(i);
+			return (i);
 	}
 	return (0);
 }
-// int		ft_recurs(char **str, int s, int d, int n, int crd, int count)
-// {
-// 	int f;
-// 	int c;
-// 	int flag;
-// 	char **tmp;
-// 	int ccrd[2];
 
-// 	f = 1;
-// 	c = n;
-
-//     tmp = (char **)malloc(sizeof(char *) * n + 1);
-// 	tmp[0] = (char *)malloc(d * d);
-// 	tmp[0] = ft_strcpy_custom(tmp[0], str[0], d * d);
-//     while (f <= n)
-// 	{
-// 		if (str[f] != NULL)
-// 		{
-//         	tmp[f] = ft_strnew(17);
-// 			tmp[f] = ft_strcpy_custom(tmp[f], str[f], 17);
-// 		}
-// 		else
-// 		{
-// 			tmp[f] = NULL;
-// 		}
-// 		f++;
-//     }
-// 	tmp[0] = ft_paste(tmp[0], tmp[s], crd, d);
-// 	tmp[s] = NULL;
-// 	f = 1;
-// 	while (f < count)
-// 	{
-// 		flag = 0;
-// 		s = 1;
-// 		crd = -1;
-// 		ccrd[0] = -1;
-// 		while(s <= n)
-// 		{
-// 			if (tmp[s] == NULL)
-// 				s++;
-// 			else
-// 			{
-// 				crd = ft_coordinate(tmp[0], tmp[s], d);
-// 				if (crd >= 0 && (crd < ccrd[0] || ccrd[0] < 0))
-// 				{
-// 					ccrd[0] = crd;
-// 					ccrd[1] = s;
-// 				}
-// 				else if (ccrd[0] > 0 && ccrd[0] == crd)
-// 				{
-// 					flag = ft_recurs(tmp, ccrd[1], d, n, crd, count - 1);
-// 					if (flag == 1)
-// 						ccrd[1] = s;
-// 				}
-// 				s++;
-// 			}
-// 		}
-// 		if (ccrd[0] >= 0)
-// 		{
-// 			tmp[0] = ft_paste(tmp[0], tmp[ccrd[1]], ccrd[0], d);
-// 			tmp[ccrd[1]] = NULL;
-// 			crd = -1;
-// 			count--;
-// 		}
-// 		else
-// 		{
-// 			f++;
-// 		}
-
-// 	}
-// 	return (0);
-// }
-// 	while (f <= n / 2)
-// 	{
-// 		s = 1;
-// 		crd = -1;
-// 		ccrd[0] = -1;
-// 		flag = 0;
-// 		while(s <= n && c > 0)
-// 		{
-// 			crd = -1;
-// 			if (tmp[s] != NULL)
-// 				crd = ft_coordinate(tmp[0], tmp[s], d);
-// 			if (crd >= 0 && crd == ccrd[0] && flag == 0)
-// 			{
-// 				flag = ft_recurs(tmp, ccrd[1], d, n, crd, count);
-// 				if (flag == 1)
-// 					ccrd[1] = s;
-// 			}
-// 			if (crd >= 0 && (crd < ccrd[0] || ccrd[0] < 0))
-// 				{
-// 					ccrd[0] = crd;
-// 					ccrd[1] = s;
-// 				}
-// 			if (ccrd[0] >= 0 && s == n)
-// 				{
-// 					tmp[0] = ft_paste(tmp[0], tmp[ccrd[1]], ccrd[0], d);
-// 					tmp[ccrd[1]] = NULL;
-// 					crd = -1;
-// 					c--;
-// 				}
-// 			s++;
-// 		}
-// 		f++;
-// 		if (f >= n / 2 && crd < 0)
-// 			return(1);
-// 	}
-// 	return (0);
-// }
-
-
-// 	while (f <= n)
-// 	{
-// 		s = 1;
-// 		while(c > 0)
-// 		{
-// 			flag = 0;
-// 			if (str[s] != NULL)
-// 				crd = -1;
-// 			if (str[s] != NULL)
-// 				crd = ft_coordinate(str[0], str[s], d);
-// 			if (crd >= 0 && crd == ccrd[0])
-// 				flag = ft_recurs(str, s, d, n - 1, crd);
-// 			if (crd >= 0 && (crd < ccrd[0] || ccrd[0] < 0) && flag == 0)
-// 				{
-// 					ccrd[0] = crd;
-// 					ccrd[1] = s;
-// 				}
-
-// 			if (ccrd[0] >= 0 && s == n)
-// 				{
-// 					str[0] = ft_paste(str[0], str[ccrd[1]], ccrd[0], d);
-// 					str[ccrd[1]] = NULL;
-// 					crd = -1;
-// 					c--;
-// 				}
-// 			s++;
-// 		}
-
-// 		f++;
-// 	}
-// }
-size_t factorial(int f)
+int		ft_cmass(int *mass, int n)
 {
-	size_t n ;
-
-	n =1;
-	f++;
-	while(--f>0)
-		n*=f;
-	return (n);
-}
-char	*ft_brute1(char **str, const int n, int d)
-{
-	int first;
-	int second;
-	int crd;
-	int ccrd[2];
-	int flag;
+	int i;
 	int count;
-	int mass[n + 1];
-	int ovl[d * d];
-	int fld[n + 1];
-	size_t gg;
 
-	ft_bzero_custom(ovl, d * d);
-	ft_bzero_custom(fld, n + 1);
-	//count = 0;
-//	while (count <= n)
-//	{
-//		mass[count] = 1;
-//		count++;
-//	}
-	ft_memset(mass, 1, (size_t)n); //todo check this refactor
-	first = 1;
-	crd = -1;
-	flag = -1;
-	gg = 0;
-	while (first != n + 1)
+	i = 1;
+	count = 0;
+	while (i <= n)
 	{
-		second = 1;
-		ccrd[0] = -1;
-		while(second != (n + 1))
-		{
-			if (mass[second] != 0)
-				crd = -1;
-			if (mass[second] != 0)
-				crd = ft_coordinate(str[0], str[second], d);
-			if (crd >= 0 && (crd < ccrd[0] || ccrd[0] < 0))
-			{
-				ccrd[0] = crd;
-				ccrd[1] = second;
-			}
-			else if (crd >= 0 && crd == ccrd[0] && mass[second] != 0)
-			{
-				if (flag != crd)
-					ovl[crd]++;
-				else if (flag != -1)
-				{
-					ccrd[1] = second;
-					ovl[crd]--;
-					flag = -1;
-				}
-			}
-			if (ccrd[0] >= 0 && second == n)
-			{
-				str[0] = ft_paste(str[0], str[ccrd[1]], ccrd[0], d);
-				fld[ccrd[1]] = ccrd[0];
-				mass[ccrd[1]] = 0;
-				crd = -1;
-			}
-			second++;
-		}
-		first++;
-		gg++;
-		if (first >= n && crd < -3)
-		{
-			str[0] = ft_strnew_custom(d * d);
-			g_size = d * d;
-			flag = ft_flag(ovl);
-			ft_bzero_custom(ovl, d * d);
-			count = 0;
-			while (count <= n)
-			{
-				mass[count] = 1;
-				count++;
-			}
-			first = 1;
-			crd = -1;
-			if (gg > factorial(n))
-			{
-				d++;
-				str[0] = ft_strnew_custom(d * d);
-				ft_bzero_custom(ovl, d * d);
-				first = 1;
-				crd = -1;
-			}
-		}
-		// if (gg > 100)
-		// {
-		//  	d++;
-		//  	str[0] = ft_newquad(str[0], d - 1, d);
-		//  	first = 1;
-		//  	crd = -1;
-		// }
+		if (mass[i] == 1)
+			count++;
+		i++;
 	}
-	str[0] = ft_quadforprin(str[0], d);
-	ft_qprint(str[0], d);
+	return (count);
+}
+
+int		**rtrrestore(int **rtr, int i, int d, int n)
+{
+	while (i < d * d)
+	{
+		ft_bzeroint(rtr[i], n);
+		i++;
+	}
+	return (rtr);
+}
+
+char	*ft_restore(char **str, t_tetro *tetro, int i)
+{
+	int j;
+	int tet;
+	char c;
+
+	c = str[i][16];
+	j = 0;
+	tetro->mass[i] = 1;
+	tetro->fld[i] = 0;
+	while (j < tetro->d * tetro->d)
+	{
+		if (str[0][j] == c)
+			str[0][j] = 0;
+		j++;
+	}
 	return (str[0]);
 }
 
-int		high_sqrt(int n)
+void	ft_writecrd(t_tetro *tetro, int crd, int second)
 {
-	int size;
-
-	size = 2;
-	while (size * size < n)
-		size++;
-	return (size);
+	tetro->ccrd[0] = crd;
+	tetro->ccrd[1] = second;
 }
+
+void	ft_writerpt(t_tetro *tetro, int crd, int second)
+{
+	tetro->ovl[crd]++;
+	tetro->rtr[crd][second] = 1;
+}
+
+char	*ft_write(char **str, t_tetro *tetro)
+{
+	str[0] = ft_paste(str[0], str[tetro->ccrd[1]], tetro->ccrd[0], tetro->d);
+	tetro->mass[tetro->ccrd[1]] = 0;
+	tetro->fld[tetro->ccrd[1]] = tetro->ccrd[0];
+	return (str[0]);
+}
+
+char	*ft_subs(char **str, t_tetro *tetro)
+{
+	int s;
+	int crd;
+	int flag;
+
+	s = 1;
+	tetro->ccrd[0] = -1;
+	while (s <= tetro->n)
+	{
+		crd = -1;
+		if (tetro->mass[s] != 0)
+			crd = ft_coordinate(str[0], str[s], tetro->d);
+		if (crd >= 0 && (crd < tetro->ccrd[0] || tetro->ccrd[0] < 0))
+			ft_writecrd(tetro, crd, s);
+		else if (crd == tetro->ccrd[0] && crd >= 0 && tetro->rtr[crd][s] != 1)
+			ft_writerpt(tetro, crd, s);
+		s++;
+	}
+	if (tetro->ccrd[0] >= 0)
+		str[0] = ft_write(str, tetro);
+	return (str[0]);
+}
+
+char	*ft_back(char **str, t_tetro *tetro)
+{
+	int i;
+	int j;
+
+	j = 1;
+	i = ft_flag(tetro->ovl, tetro->d);
+	while (j <= tetro->n)
+	{
+		if (tetro->fld[j] >= i)
+		{
+			str[0] = ft_restore(str, tetro, j);
+		}
+		j++;
+	}
+	tetro->rtr = rtrrestore(tetro->rtr, i + 1, tetro->d, tetro->n);
+	while (i < tetro->d * tetro->d)
+	{
+		i++;
+		if (i < tetro->d * tetro->d)
+			tetro->ovl[i] = 0;
+	}
+	return (str[0]);
+}
+
+char	*ft_fpaste(char **str, t_tetro *tetro)
+{
+	int i;
+	int j;
+
+	j = 1;
+	i = ft_flag(tetro->ovl, tetro->d);
+	while (j <= tetro->n)
+	{
+		if (tetro->rtr[i][j] == 1)
+		{
+			str[0] = ft_paste(str[0], str[j], i, tetro->d);
+			tetro->mass[j] = 0;
+			tetro->fld[j] = i;
+			tetro->rtr[i][j] = 0;
+			if (tetro->ovl[i] > 0)
+				tetro->ovl[i]--;
+			return (str[0]);
+		}
+		j++;
+	}
+	return (str[0]);
+}
+
+int		ft_checkrtr(t_tetro *tetro)
+{
+	int i;
+	int j;
+
+	i = 0;
+	j = 0;
+	while (i <= tetro->d * tetro->d)
+	{
+		while (j <= tetro->n)
+		{
+			if (tetro->rtr[i][j] == 1)
+				return (-1);
+			j++;
+		}
+		i++;
+	}
+	return (0);
+}
+
+char	*ft_freetetro(char *str, t_tetro *tetro)
+{
+	int c;
+	int count;
+
+	count = tetro->n;
+	str = ft_newquad(str, tetro->d, tetro->d + 1);
+	ft_free(tetro->mass);
+
+	ft_free(tetro->ovl);
+	ft_free(tetro->fld);
+	ft_free(tetro->rtr);
+	c = 0;
+	while (c <= count)
+	{
+		ft_bzeroint(tetro->rtr[c], count + 1);
+		tetro->mass[c] = 1;
+		c++;
+	}
+	ft_free(tetro);
+	return (str);
+}
+
+char	*ft_bback(char **str, t_tetro *tetro)
+{
+	str[0] = ft_back(str, tetro);
+	str[0] = ft_fpaste(str, tetro);
+	return (str[0]);
+}
+
+char	*ft_brute2(char **str, t_tetro *tetro)
+{
+	int first;
+	int crd;
+	int flg;
+
+	first = 1;
+	flg = 0;
+	str[0] = ft_strnew(tetro->d * tetro->d);
+	while (first <= tetro->n)
+	{
+		str[0] = ft_subs(str, tetro);
+		first++;
+		if (first == tetro->n)
+		{
+			if (ft_cmass(tetro->mass, tetro->n) > 0 && ft_checkrtr(tetro) < 0)
+				str[0] = ft_bback(str, tetro);
+			else if (ft_cmass(tetro->mass, tetro->n) <= 0)
+				return (ft_quadforprin(str[0], tetro->d));
+			if (ft_checkrtr(tetro) == 0)
+				str[0] = ft_freetetro(str[0], tetro);
+			first = 1;
+		}
+	}
+	return (str[0]);
+}
+
+
+char	*ft_init(char **str, int count, int diag)
+{
+	t_tetro	*tetro;
+	int c;
+
+	tetro = ft_memalloc(sizeof(t_tetro));
+	tetro->d = diag;
+	tetro->n = count;
+	tetro->mass = (int *)ft_memalloc((sizeof(int)) * (count + 1));
+	tetro->ovl = (int *)ft_memalloc((sizeof(int)) * diag * diag);
+	tetro->fld = (int *)ft_memalloc((sizeof(int)) * (count + 1));
+	tetro->rtr = (int **)ft_memalloc(sizeof(int *) * (diag * diag));
+	c = 0;
+	while (c < diag * diag)
+		tetro->rtr[c++] = ft_memalloc(sizeof(int) * (count + 1));
+	ft_bzeroint(tetro->ovl, diag * diag);
+	ft_bzeroint(tetro->fld, count + 1);
+	c = 0;
+	while (c <= count)
+	{
+		ft_bzeroint(tetro->rtr[c], count + 1);
+		tetro->mass[c] = 1;
+		c++;
+	}
+	str[0] = ft_brute2(str, tetro);
+	return (str[0]);
+}
+
 char	*ft_brute(char **str, int n)
 {
 	int d;
@@ -589,7 +580,7 @@ char	*ft_brute(char **str, int n)
 	int second;
 	int crd;
 
-	d = high_sqrt(n*4);
+	d = 6;
 	first = 1;
 	while (first != n + 1 && d == 3)
 	{
@@ -598,7 +589,7 @@ char	*ft_brute(char **str, int n)
 		{
 			crd = -1;
 			if ((first != second && (str[first] != NULL || str[second] != NULL)) && (d == 3))
-				crd = ft_coordinate(ft_d3(str[first]),str[second], d);
+				crd = ft_coordinate(ft_d3(str[first]), str[second], d);
 			else if (first != second && (str[first] != NULL || str[second] != NULL))
 				crd = ft_coordinate(str[first], str[second], d);
 			if (first != second && crd >= 0)
@@ -606,7 +597,7 @@ char	*ft_brute(char **str, int n)
 				str[0] = ft_paste3(ft_d3(str[first]), str[second], crd, d);
 				str[first] = NULL;
 				str[second] = NULL;
-				str[0] = ft_brute1(str, n, d);
+				str[0] = ft_init(str, n, d);
 				return (str[0]);
 			}
 			second++;
@@ -614,86 +605,13 @@ char	*ft_brute(char **str, int n)
 		first++;
 	}
 	str[0] = NULL;
-	str[0] = ft_brute1(str, n, d);
+	str[0] = ft_init(str, n, d);
 	return (str[0]);
 }
 
 
-
-// char	*ft_brute(char **str, int n)
-// {
-// 	int d;
-// 	int first;
-// 	int second;
-// 	int crd;
-
-// 	d = 4;
-// 	first = 0;
-// 	while (first != n + 1)
-// 	{
-// 		second = 1;
-// 		while(second != n + 1)
-// 		{
-// 			crd = -1;
-// 			if (first != second && (str[first] != NULL || str[second] != NULL))
-// 				crd = ft_coordinate(str[first], str[second], d);
-// 			if (first != second && crd >= 0)
-// 			{
-// 				str[first] = ft_move(str[first], str[second], crd, d);
-// 				str[second] = NULL;
-// 			}
-// 			second++;
-// 		}
-// 		first++;
-// 		if (first == n && crd < 0)
-// 		{
-// 			d++;
-// 			str[0] = ft_newquad(str[0], d - 1, d);
-// 			first = 0;
-// 			crd = -1;
-// 		}
-// 	}
-// 	str[0] = ft_quadforprin(str[0], d);
-// 	return (str[0]);
-// }
-
-// void	ft_qprint(char *str, int d)
-// {
-// 	int i;
-// 	int n;
-
-// 	i = 0;
-// 	while(i <= d * d + d)
-// 	{
-// 	    if (str[i] == 0)
-// 	        str[i] = '.';
-// 	    else if (str[i] == 1)
-// 	        str[i] = '#';
-// //	    else if (str[i] != 0 && str[i] != '\n')
-// //	        str[i] = '1';
-// 		printf("%c", str[i]);
-// 		i++;
-// 	}
-// }
-
 void	ft_fillit(char **str, int n)
 {
 	str[0] = ft_brute(str, n);
-	// ft_qprint(str[0]);	
+	// ft_qprint(str[0]);
 }
-
-//int		main()
-//{
-//	char	**str;
-//	int 	n;
-//
-//	printf("1");
-//	str[1] = "0000110001000100";
-//	str[2] = "0000111100000000";
-//	// str[3] = "1000111000000000";
-//	// str[4] = "0000110001100000";
-//	n = 2;
-//	printf("1");
-//	ft_fillit(str, n);
-//	return 0;
-//}

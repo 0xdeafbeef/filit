@@ -6,7 +6,7 @@
 /*   By: qhetting <qhetting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 18:56:17 by qhetting          #+#    #+#             */
-/*   Updated: 2019/01/21 17:36:33 by qhetting         ###   ########.fr       */
+/*   Updated: 2019/02/24 18:27:21 by qhetting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,15 @@
 # include <unistd.h>
 # include <stdlib.h>
 #include "fcntl.h"
+#include "ft_gc.h"
+
 typedef	struct		s_list
 {
 	void			*content;
 	size_t			content_size;
 	struct s_list	*next;
 }					t_list;
+
 
 size_t				ft_strlen(const char *s);
 char				*ft_strdup(const char *s1);
@@ -90,5 +93,7 @@ int					ft_cpyuntil(char **dst, char *src, char c);
 void				ft_lstaddback(t_list *lst, t_list *new);
 char				*ft_strjoinch(char const *s1, char c);
 void				ft_swap(int *a, int *b);
+t_gc_vector 		*create_tgc_vector(size_t size);
+void *ft_realloc_gc(void **prev, size_t new_size);
 
 #endif
