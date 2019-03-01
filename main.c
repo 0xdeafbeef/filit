@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <printf.h>
 #include "filit.h"
 
 void print(char *tetra)
@@ -75,26 +74,7 @@ int main(int argc, char *argv[])
 		free(pr);
 		return (1);
 	}
-//	for (int i = 0; i < 27; ++i)
-//	{
-//		if (pr[i] != NULL)
-//			for (int j = 0; j < 17; ++j)
-//			{
-//				if (j % 4 == 0)
-//					write(1, "\n", 1);
-//
-//				if (j != 16)
-//				{
-//					char c;
-//					c = pr[i][j] + (char) '0';
-//					write(1, &c, 1);
-//				} else
-//					write(1, &(pr[i][j]), 1);
-//			}
-//	}
-	write(1, "\n", 1);
 	ft_fillit(pr, cnt);
 	ft_gc(&g_memaloced);
 	return (0);
 }
-
