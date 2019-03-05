@@ -68,9 +68,9 @@ char *crop(char **tet_inpt)
 
 char **generate_arrays(char **tet_inpt)
 {
-	char size;
+	unsigned char size;
 	char **tetraminos;
-	char i;
+	unsigned char i;
 	char *current;
 	int size_f;
 
@@ -81,7 +81,7 @@ char **generate_arrays(char **tet_inpt)
 		tetraminos[size] = 0x0;
 	}
 
-	size = (char) (ft_strlen(*tet_inpt) / 16);
+	size = (unsigned char) (ft_strlen(*tet_inpt) / 16);
 	i = 1;
 	current = ft_memalloc(17);
 	while (size--)
@@ -89,7 +89,7 @@ char **generate_arrays(char **tet_inpt)
 		tetraminos[i] = ft_memalloc(17);
 		i++;
 	}
-	size = (char) (ft_strlen(*tet_inpt) / 16);
+	size = (unsigned char) (ft_strlen(*tet_inpt) / 16);
 	i = 1;
 	size_f = size * 16;
 	while (size--)
@@ -100,7 +100,7 @@ char **generate_arrays(char **tet_inpt)
 		*tet_inpt += 16;
 		i++;
 	}
-	i = (char) (size_f / 16);
+	i = (unsigned char) (size_f / 16);
 	while (++i <= 28)
 		tetraminos[i] = 0x0;
 	free((*tet_inpt - size_f));

@@ -36,7 +36,6 @@ char	*ft_subs(char **str, t_tetro *tetro)
 {
 	int s;
 	int crd;
-	int flag;
 
 	s = 1;
 	tetro->ccrd[0] = -1;

@@ -6,7 +6,7 @@
 /*   By: adoyle <adoyle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/01 16:18:18 by adoyle            #+#    #+#             */
-/*   Updated: 2019/03/01 16:48:57 by adoyle           ###   ########.fr       */
+/*   Updated: 2019/03/05 20:04:24 by qhetting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,9 @@ char	*ft_movenewstr(char *str1, char *str2, int crd, int d)
 {
 	char	*str;
 
-	str = ft_ftstrnew(d * d - 1);
+	str2+=0;
+	crd +=0;
+	str = ft_ftstrnew((size_t) (d * d - 1));
 	str = ft_ftstrcpy(str, str1, d * d - 1);
 	return (str);
 }
@@ -86,7 +88,7 @@ int		ft_coordinate(char *str1, char *str2, int d)
 	i = 0;
 	if (str1 == NULL || str2 == NULL)
 		return (-5);
-	tmp = ft_ftstrnew(d * d);
+	tmp = ft_ftstrnew((d * d));
 	tmp = ft_ftstrcpy(tmp, str1, d * d - 1);
 	while (i != d * d)
 	{

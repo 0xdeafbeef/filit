@@ -25,7 +25,6 @@ int		**rtrrestore(int **rtr, int i, int d, int n)
 char	*ft_restore(char **str, t_tetro *tetro, int i)
 {
 	int		j;
-	int		tet;
 	char	c;
 
 	c = str[i][16];

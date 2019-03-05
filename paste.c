@@ -14,13 +14,10 @@
 
 char	*ft_paste(char *str1, char *str2, int crd, int d)
 {
-	char	*str;
-	int		i;
 	int		j;
 
 	j = 0;
 	crd = crd - ft_fsmb(str2);
-	i = crd / d;
 	while (j < 16)
 	{
 		if (str2[j] == 1 && (crd + (j % 4)) + d * (j / 4) < d * d)

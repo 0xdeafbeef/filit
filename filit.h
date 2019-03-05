@@ -6,14 +6,15 @@
 /*   By: qhetting <qhetting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 17:54:29 by qhetting          #+#    #+#             */
-/*   Updated: 2019/01/27 19:12:17 by qhetting         ###   ########.fr       */
+/*   Updated: 2019/03/05 19:14:44 by qhetting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #ifndef FILIT_FILIT_H
 # define FILIT_FILIT_H
-#include "libft/libft.h"
-#include "libft/get_next_line.h"
-
+#include "libft.h"
+#include <unistd.h>
+#include <fcntl.h>
 #define WIDTH 4
 int check_1(char *tetr, int pos);
 int check_2(char *tetr, int pos);

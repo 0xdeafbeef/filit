@@ -46,11 +46,8 @@ char	*ft_bback(char **str, t_tetro *tetro)
 char	*ft_brute2(char **str, t_tetro *tetro)
 {
 	int first;
-	int crd;
-	int flg;
 
 	first = 1;
-	flg = 0;
 	str[0] = ft_ftstrnew(tetro->d * tetro->d - 1);
 	while (first <= tetro->n)
 	{

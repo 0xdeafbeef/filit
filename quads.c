@@ -38,7 +38,6 @@ char	*ft_newquad(char *str, int d, int nd)
 void	ft_qprint(char *str, int d)
 {
 	int i;
-	int n;
 
 	i = 0;
 	while (i < d * d + d)

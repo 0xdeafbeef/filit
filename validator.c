@@ -6,7 +6,7 @@
 /*   By: qhetting <qhetting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/16 21:55:09 by qhetting          #+#    #+#             */
-/*   Updated: 2019/02/03 16:48:11 by qhetting         ###   ########.fr       */
+/*   Updated: 2019/03/05 20:17:40 by qhetting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,33 +54,6 @@ int pre_parse(int fd, char **tetraminos)
 	*tetraminos = (char *) i;
 	return (1);
 }
-
-//void	populate_valid(int i, char valid[20][15])
-//{
-//	while (++i < 20)
-//	{
-//		ft_bzero(valid[i], sizeof(valid[i]));
-//	}
-//	ft_strcpy(valid[0], "###...#");
-//	ft_strcpy(valid[1], ".#...#..##");
-//	ft_strcpy(valid[2], "#...###");
-//	ft_strcpy(valid[3], "##..#...#");
-//	ft_strcpy(valid[4], "###.#");
-//	ft_strcpy(valid[5], "##...#...#");
-//	ft_strcpy(valid[6], "..#.###");
-//	ft_strcpy(valid[7], "#...#...##");
-//	ft_strcpy(valid[8], "###..#");
-//	ft_strcpy(valid[9], ".#..##...#");
-//	ft_strcpy(valid[10], ".#..###");
-//	ft_strcpy(valid[11], "#...##..#");
-//	ft_strcpy(valid[12], ".##.##");
-//	ft_strcpy(valid[13], "#...##...#");
-//	ft_strcpy(valid[14], "##..##")
-//	ft_strcpy(valid[15], "#...#...#...#");
-//	ft_strcpy(valid[16], "####");
-//	ft_strcpy(valid[17], ".#..##..#");
-//	ft_strcpy(valid[18], "##...##");
-//}
 
 
 
@@ -138,7 +111,7 @@ int validate_tetra(char **tetramino)
 
 int validate(char **tetra)
 {
-	int i;
+	unsigned int i;
 	char *cut;
 	i = 0;
 
