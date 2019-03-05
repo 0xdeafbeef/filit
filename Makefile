@@ -1,18 +1,21 @@
 
 NAME		= fillit
-CFLAGS	= -Wall -Werror -Wextra -I. -L libft/ -lft -c
-FILES		= *.c
-OBJ			= $(FILES:%.c=%.o)
-
+CFLAGS	= -Wall -Werror -Wextra -I. -c
+FILES	= *.c
+OBJ		= $(FILES:%.c=%.o)
+LIB 	= libft/libft.a	
 all: $(NAME)
+	
+$(NAME): $(OBJ)
+	@gcc $(OBJ) $(LIB) -o $(NAME)
 
-$(NAME): $(FILES)
-	gcc $(CFLAGS)  $(FILES)
+$(OBJ): $(FILES)
+	@gcc $(CFLAGS)  $(FILES) 
 clean:
-	rm -f $(OBJ)
+	@rm -f $(OBJ)
 
 fclean: clean
-	rm -f $(NAME)
+	@rm -f $(NAME)
 
 re: fclean all
 
