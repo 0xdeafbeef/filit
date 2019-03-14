@@ -1,13 +1,13 @@
 
 NAME		= fillit
-CFLAGS	= -Wall -Werror -Wextra -I. -c
+CFLAGS	= -Wall -Werror  -Wextra -g -I. -c
 FILES	= *.c
 OBJ		= $(FILES:%.c=%.o)
 LIB 	= libft/libft.a	
 all: $(NAME)
 	
 $(NAME): $(OBJ)
-	@gcc $(OBJ) $(LIB) -o $(NAME)
+	@gcc $(OBJ) $(LIB) -fsanitize=address -o $(NAME)
 
 $(OBJ): $(FILES)
 	@gcc $(CFLAGS)  $(FILES) 

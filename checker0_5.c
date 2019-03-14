@@ -1,14 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   checker0_5.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: qhetting <qhetting@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/03/14 12:34:44 by qhetting          #+#    #+#             */
+/*   Updated: 2019/03/14 12:36:43 by qhetting         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "filit.h"
 
-/*
-_y(pos) > 0 && _y(pos) < 4 && _x(pos) > 0 && _x(pos) < 4
- */
-int check_1(char *tetr, int pos)
+int				check_1(char *tetr, int pos)
 {
-	int sharps;
+	int			sharps;
 
 	sharps = 0;
-
 	if (tetr[pos + UP] == '#')
 		sharps++;
 	if (tetr[pos + 1] == '#')
@@ -20,13 +28,11 @@ int check_1(char *tetr, int pos)
 	return (sharps);
 }
 
-//x ==0
-int check_2(char *tetr, int pos)
+int				check_2(char *tetr, int pos)
 {
-	int sharps;
+	int			sharps;
 
 	sharps = 0;
-
 	if (tetr[pos + UP] == '#')
 		sharps++;
 	if (tetr[pos + 1] == '#')
@@ -36,12 +42,11 @@ int check_2(char *tetr, int pos)
 	return (sharps);
 }
 
-int check_3(char *tetr, int pos)
+int				check_3(char *tetr, int pos)
 {
 	int sharps;
 
 	sharps = 0;
-
 	if (tetr[pos + UP] == '#')
 		sharps++;
 	if (tetr[pos + DOWN] == '#')
@@ -51,12 +56,11 @@ int check_3(char *tetr, int pos)
 	return (sharps);
 }
 
-int check_4(char *tetr, int pos)
+int				check_4(char *tetr, int pos)
 {
-	int sharps;
+	int			sharps;
 
 	sharps = 0;
-
 	if (tetr[pos + 1] == '#')
 		sharps++;
 	if (tetr[pos + DOWN] == '#')
@@ -66,16 +70,14 @@ int check_4(char *tetr, int pos)
 	return (sharps);
 }
 
-int check_5(char *tetr, int pos)
+int				check_5(char *tetr, int pos)
 {
-	int sharps;
+	int			sharps;
 
 	sharps = 0;
-
 	if (tetr[pos + 1] == '#')
 		sharps++;
 	if (tetr[pos + DOWN] == '#')
 		sharps++;
 	return (sharps);
 }
-
