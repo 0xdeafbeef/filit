@@ -1,20 +1,30 @@
-#include <stddef.h>
-#include <stdio.h>
-#include <stdlib.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_gc.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: qhetting <qhetting@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/03/14 14:08:59 by qhetting          #+#    #+#             */
+/*   Updated: 2019/03/14 14:10:24 by qhetting         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #ifndef GC_FT_GC_H
-#define GC_FT_GC_H
- #define TGC_OPTIMAL_SIZE (2u<<5u)
-#endif //GC_FT_GC_H
-typedef struct s_gc_vector
+# define GC_FT_GC_H
+# include <stddef.h>
+# include <stdio.h>
+# include <stdlib.h>
+
+typedef struct			s_malloced
 {
-	ssize_t count;
-	ssize_t len;
-	ssize_t size;
-	void **data;
-}				t_gc_vector;
-void ft_gc(t_gc_vector **vector);
-void ft_tgc_append(t_gc_vector **vector,void **d);
-t_gc_vector *init_tgc_vector(ssize_t ssize);
-void ft_free(void *fr);
-extern t_gc_vector *g_memaloced;
+	struct s_malloced	*next;
+	void				*pointer;
+	char				is_freed;
+}						t_malloced;
+extern					t_malloced *g_malloced;
+t_malloced				*init(void *ptr);
+void					append(void *ptr);
+void					ft_gc();
+void					ft_free(void **ptr);
+#endif

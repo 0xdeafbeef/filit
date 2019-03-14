@@ -6,7 +6,7 @@
 /*   By: qhetting <qhetting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/02 17:27:10 by qhetting          #+#    #+#             */
-/*   Updated: 2019/02/24 18:27:21 by qhetting         ###   ########.fr       */
+/*   Updated: 2019/02/26 21:47:55 by qhetting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,11 @@ size_t	ft_strlcat(char *dst, const char *src, size_t size)
 {
 	size_t	dst_len;
 	size_t	src_len;
+	size_t	index;
 	char	*tempo;
 
 	src_len = ft_strlen(src);
+	index = 0;
 	dst_len = ft_strlen(dst);
 	if (size < dst_len + 1)
 		return (size + src_len);

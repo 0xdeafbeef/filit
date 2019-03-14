@@ -6,7 +6,7 @@
 /*   By: qhetting <qhetting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/14 12:36:55 by qhetting          #+#    #+#             */
-/*   Updated: 2019/03/14 12:37:38 by qhetting         ###   ########.fr       */
+/*   Updated: 2019/03/14 15:09:07 by qhetting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,10 @@ int			check_9(char *tetr, int pos)
 	if (tetr[pos - 1] == '#')
 		sharps++;
 	return (sharps);
+}
+
+void		magick_stck(char **s, char **s_ptr, size_t *size)
+{
+	(*s_ptr) = *s;
+	(*size) = 0;
 }

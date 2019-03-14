@@ -1,63 +1,74 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_gc.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: qhetting <qhetting@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/03/14 14:10:50 by qhetting          #+#    #+#             */
+/*   Updated: 2019/03/14 14:13:44 by qhetting         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
-t_gc_vector *init_tgc_vector(ssize_t ssize)
+t_malloced			*init(void *ptr)
 {
-	t_gc_vector *vector;
+	t_malloced		*head;
 
-	vector = malloc(sizeof(t_gc_vector));
-	ft_bzero(vector, sizeof(t_gc_vector));
-	if (vector)
-	{
-		vector->len = TGC_OPTIMAL_SIZE;
-		vector->size = ssize;
-		vector->data = malloc(ssize * TGC_OPTIMAL_SIZE);
-	}
-	return (vector);
+	head = malloc(sizeof(t_malloced));
+	ft_bzero(head, sizeof(t_malloced));
+	head->pointer = ptr;
+	return (head);
 }
 
-void ft_gc(t_gc_vector **vector)
+void				append(void *ptr)
 {
-	size_t size;
+	t_malloced		*last;
 
-	if (*vector)
+	last = g_malloced;
+	while (last->next)
+		last = last->next;
+	last->next = init(ptr);
+}
+
+void				ft_free(void **ptr)
+{
+	t_malloced		*temp;
+
+	temp = g_malloced;
+	if (!g_malloced)
 	{
-		size = (*vector)->count;
-		while (size--)
+		free(*ptr);
+		return ;
+	}
+	while (temp)
+	{
+		if ((size_t)temp->pointer == (size_t)(*ptr))
 		{
-			free((*vector)->data[size]);
+			temp->is_freed = 1;
+			break ;
 		}
-		free((*vector)->data);
-		free(*vector);
+		temp = temp->next;
 	}
+	free(*ptr);
+	*ptr = NULL;
 }
 
-void ft_resize_vector(t_gc_vector **vector)
+void				ft_gc(void)
 {
-	void **temp;
-	void **vec_data;
-	if (*vector)
-	{
-		temp = (*vector)->data;
-		vec_data = malloc(((*vector)->len * (*vector)->size)*2);
-		vec_data = ft_memmove(vec_data, temp, (*vector)->len * (*vector)->size);
-		free(temp);
-		(*vector)->data = vec_data;
-		(*vector)->len = (*vector)->len * 2;
-	}
-}
+	t_malloced		*temp;
 
-void ft_tgc_append(t_gc_vector **vector, void **data)
-{
-	if (*vector)
+	if (!g_malloced)
+		return ;
+	while (g_malloced)
 	{
-		if ((*vector)->len - (*vector)->count <= 1)
-			ft_resize_vector(vector);
-		(*vector)->data[(*vector)->count] = data;
-		++ (*vector)->count;
+		if (!g_malloced->is_freed)
+			free(g_malloced->pointer);
+		temp = g_malloced->next;
+		free(g_malloced);
+		g_malloced = temp;
+		if (!g_malloced)
+			break ;
 	}
-}
-void ft_free(void *fr)
-{
-	free(fr);
-	fr = NULL;
 }

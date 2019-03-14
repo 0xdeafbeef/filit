@@ -6,29 +6,33 @@
 /*   By: qhetting <qhetting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 17:49:30 by qhetting          #+#    #+#             */
-/*   Updated: 2019/02/24 18:26:14 by qhetting         ###   ########.fr       */
+/*   Updated: 2019/03/14 12:58:25 by qhetting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "filit.h"
 
-void print(char *tetra)
+void		print_less(char *tetra, int *x, int *y, int *a)
 {
-	int x;
-	int y;
-	int a;
-	int intern;
+	(*x) = find_x_r_offset(tetra);
+	(*y) = find_y_r_offset(tetra);
+	(*a) = 0;
+}
 
-	x = find_x_r_offset(tetra);
-	y = find_y_r_offset(tetra);
-	a = 0;
+void		print(char *tetra)
+{
+	int		x;
+	int		y;
+	int		a;
+	int		intern;
+
+	print_less(tetra, &x, &y, &a);
 	intern = 0;
 	y = y > x ? y : x;
 	x = y > x ? y : x;
-
 	while (a < 16)
 	{
-		if (_x(a) <= x && _y(a) <= y)
+		if (x_(a) <= x && y_(a) <= y)
 		{
 			if (intern && intern % (x + 1) == 0)
 				ft_putchar('\n');
@@ -42,39 +46,45 @@ void print(char *tetra)
 	}
 }
 
-int main(int argc, char *argv[])
+void		exit_check(char *tetraminos)
 {
-	int fl;
-	char *tetraminos;
-	int cnt;
+	ft_putstr("error\n");
+	free(tetraminos);
+	exit(123);
+}
+
+void		internal_while(int cnt, char **pr)
+{
+	print(pr[1]);
+	cnt = -1;
+	while (++cnt < 28)
+		free(pr[cnt]);
+	free(pr);
+	exit(1);
+}
+
+int			main(int argc, char *argv[])
+{
+	int		fl;
+	char	*tetraminos;
+	int		cnt;
+	char	**pr;
 
 	cnt = 0;
 	if (argc != 2)
 	{
 		ft_putstr("usage: fillit input_file\n");
-		return (10);
+		exit(10);
 	}
 	fl = open(argv[1], O_RDONLY);
 	if (!((pre_parse(fl, &tetraminos)) && validate(&tetraminos)))
-	{
-		ft_putstr("error\n");
-		free(tetraminos);
-		return (123);
-	}
-	char **pr = generate_arrays(&tetraminos);
+		exit_check(tetraminos);
+	pr = generate_arrays(&tetraminos);
 	fl = 0;
 	while (++fl < 27)
 		cnt += pr[fl] ? 1 : 0;
 	if (cnt == 1)
-	{
-		print(pr[1]);
-		cnt = -1;
-		while (++cnt < 28)
-			free(pr[cnt]);
-		free(pr);
-		return (1);
-	}
+		internal_while(cnt, pr);
 	ft_fillit(pr, cnt);
-	ft_gc(&g_memaloced);
 	return (0);
 }

@@ -7,13 +7,14 @@ LIB 	= libft/libft.a
 all: $(NAME)
 	
 $(NAME): $(OBJ)
-	@gcc $(OBJ) $(LIB) -fsanitize=address -o $(NAME)
+	make -C ./libft
+	@gcc $(OBJ) $(LIB) -g  -o $(NAME)
 
 $(OBJ): $(FILES)
 	@gcc $(CFLAGS)  $(FILES) 
 clean:
 	@rm -f $(OBJ)
-
+	@make fclean -C ./libft
 fclean: clean
 	@rm -f $(NAME)
 

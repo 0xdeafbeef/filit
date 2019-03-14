@@ -1,20 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strequ.c                                        :+:      :+:    :+:   */
+/*   ft_isuppercase.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrameau <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: qhetting <qhetting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/09/26 23:42:03 by jrameau           #+#    #+#             */
-/*   Updated: 2019/02/26 21:47:55 by qhetting         ###   ########.fr       */
+/*   Created: 2019/02/19 21:24:47 by qhetting          #+#    #+#             */
+/*   Updated: 2019/03/14 14:14:40 by qhetting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
-
-int		ft_strequ(char const *s1, char const *s2)
+int	ft_isupper(int ch)
 {
-	if (!s1 || !s2)
-		return (0);
-	return (ft_strcmp(s1, s2) ? 0 : 1);
+	return (ch >= 'A' && ch <= 'Z');
 }

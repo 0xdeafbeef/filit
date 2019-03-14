@@ -1,23 +1,34 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   misc.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: qhetting <qhetting@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/03/14 12:58:51 by qhetting          #+#    #+#             */
+/*   Updated: 2019/03/14 16:57:44 by qhetting         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "filit.h"
 
-int _x(int pos)
+int			x_(int pos)
 {
 	return (pos % 4);
 }
 
-int _y(int pos)
+int			y_(int pos)
 {
 	return (pos / 4);
 }
 
-void remove_symbols(char **s, char c)
+void		remove_symbols(char **s, char c)
 {
-	char *s_ptr;
-	size_t size;
-	char *ret;
+	char	*s_ptr;
+	size_t	size;
+	char	*ret;
 
-	s_ptr = *s;
-	size = 0;
+	magick_stck(s, &s_ptr, &size);
 	while (*s_ptr)
 	{
 		if (*s_ptr != c)
@@ -26,7 +37,7 @@ void remove_symbols(char **s, char c)
 	}
 	ret = ft_strnew(size);
 	s_ptr = *s;
-	size = (size_t) ret;
+	size = (size_t)ret;
 	while (**s)
 	{
 		if (**s != c)
@@ -37,16 +48,15 @@ void remove_symbols(char **s, char c)
 		(*s)++;
 	}
 	free(s_ptr);
-	*s = (char *) (size);
+	*s = (char *)(size);
 }
 
-int find_x_r_offset(char *tetra)
+int			find_x_r_offset(char *tetra)
 {
-	int x;
-	int y;
+	int		x;
+	int		y;
 
 	x = 3;
-
 	while (x != 0)
 	{
 		y = 4;
@@ -61,10 +71,10 @@ int find_x_r_offset(char *tetra)
 	return (0);
 }
 
-int find_y_r_offset(char *tetra)
+int			find_y_r_offset(char *tetra)
 {
-	int x;
-	int y;
+	int		x;
+	int		y;
 
 	y = 3;
 	while (y >= 0)
