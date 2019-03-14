@@ -6,7 +6,7 @@
 /*   By: qhetting <qhetting@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/16 21:55:09 by qhetting          #+#    #+#             */
-/*   Updated: 2019/03/14 17:00:55 by qhetting         ###   ########.fr       */
+/*   Updated: 2019/03/14 17:15:58 by qhetting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int					pre_parse_pt1(char **str)
 	size_t			lines;
 
 	lines = (size_t)ft_count_symbol(*str, '\n');
-	if ((lines + 1) % 5 != 0)
+	if ((lines + 1) % 5 != 0 || (lines + 1) / 5 > 26)
 	{
 		free(*str);
 		return (0);
